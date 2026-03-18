@@ -18,7 +18,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        branch: ["kitten", "10.1"]
+        branch: ["kitten", "10"]
       fail-fast: false
     steps:
       - name: Checkout repository
