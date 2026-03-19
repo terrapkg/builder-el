@@ -7,8 +7,8 @@ RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-
     wait &&\
     dnf up -y && \
     dnf install -y epel-release && \
-    curl https://repos.fyralabs.com/terrael10/$(cat page.html | sed -nE 's@.*"(terra-release-[^"]+)".*@\1@p') -o terra-release.rpm &&\
-    curl https://repos.fyralabs.com/terrael10/$(cat page.html | sed -nE 's@.*"(terra-gpg-keys-[^"]+)".*@\1@p') -o terra-gpg-keys.rpm &&\
+    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-release-[^"]+)".*@\1@p') -o terra-release.rpm &&\
+    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-gpg-keys-[^"]+)".*@\1@p') -o terra-gpg-keys.rpm &&\
     rm page.html && \
     rpm -i ./*.rpm && \
     #sed -Ei "s@^#baseurl=.+@baseurl=https://dl.fedoraproject.org/pub/epel/\$releasever_major\${releasever_minor:+.\$releasever_minor}/Everything/\$basearch/@" /etc/yum.repos.d/epel.repo && \
