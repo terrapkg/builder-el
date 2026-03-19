@@ -1,7 +1,6 @@
 FROM almalinux:10-kitten
 
-RUN curl https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm -o epel-release-latest-10.noarch.rpm &\
-    curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo &\
+RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo &\
     echo 'max_parallel_downloads=20' >> /etc/dnf/dnf.conf &\ 
     curl 'https://repos.fyralabs.com/terrael10-kitten/?sort=2' -o page.html &\
     wait &&\
@@ -12,6 +11,8 @@ RUN curl https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
     #sed -Ei "s@^#baseurl=.+@baseurl=https://dl.fedoraproject.org/pub/epel/\$releasever_major\${releasever_minor:+.\$releasever_minor}/Everything/\$basearch/@" /etc/yum.repos.d/epel.repo && \
     #sed -Ei '/^metalink/ s/^/#/' /etc/yum.repos.d/epel.repo && \
     sed -Ei '/\[crb\]/,/^$/ s@^enabled=0$@enabled=1@' /etc/yum.repos.d/almalinux-crb.repo && \
+    dnf up -y && \
+    dnf install -y epel-release && \
     dnf install -y \
         --setopt=install_weak_deps=0 \
         terra-mock-configs anda-srpm-macros terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release-latest \
