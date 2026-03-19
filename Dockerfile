@@ -1,11 +1,14 @@
 FROM almalinux:10-kitten
 
+COPY dnf.conf /etc/dnf/dnf.conf
+
 RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo &\
-    echo 'max_parallel_downloads=20' >> /etc/dnf/dnf.conf &\ 
-    curl 'https://repos.fyralabs.com/terrael10-kitten/?sort=2' -o page.html &\
+    curl 'https://repos.fyralabs.com/terrael10/?sort=2' -o page.html &\
     wait &&\
-    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-release-[^"]+)".*@\1@p') -o terra-release.rpm &&\
-    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-gpg-keys-[^"]+)".*@\1@p') -o terra-gpg-keys.rpm &&\
+    dnf up -y && \
+    dnf install -y epel-release && \
+    curl https://repos.fyralabs.com/terrael10/$(cat page.html | sed -nE 's@.*"(terra-release-[^"]+)".*@\1@p') -o terra-release.rpm &&\
+    curl https://repos.fyralabs.com/terrael10/$(cat page.html | sed -nE 's@.*"(terra-gpg-keys-[^"]+)".*@\1@p') -o terra-gpg-keys.rpm &&\
     rm page.html && \
     rpm -i ./*.rpm && \
     #sed -Ei "s@^#baseurl=.+@baseurl=https://dl.fedoraproject.org/pub/epel/\$releasever_major\${releasever_minor:+.\$releasever_minor}/Everything/\$basearch/@" /etc/yum.repos.d/epel.repo && \
@@ -14,8 +17,7 @@ RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-
     dnf up -y && \
     dnf install -y epel-release && \
     dnf install -y \
-        --setopt=install_weak_deps=0 \
-        terra-mock-configs anda-srpm-macros terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release-latest \
-        subatomic-cli anda rpm-build git-lfs podman fuse-overlayfs mold dnf-plugins-core \
+        terra-mock-configs anda-srpm-macros terra-mock-gpg-keys terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release-latest \
+        subatomic-cli anda{,srpm-macros} rpm-build podman fuse-overlayfs mold dnf-plugins-core \
         wget less gh util-linux bash bzip2 cpio diffutils findutils gawk glibc-minimal-langpack grep info patch sed tar gzip unzip which xz jq &&\
     dnf clean all
