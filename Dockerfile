@@ -17,7 +17,7 @@ RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-
     dnf up -y && \
     dnf install -y epel-release && \
     dnf install -y \
-        terra-mock-configs anda-srpm-macros terra-mock-gpg-keys terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release-latest \
+        terra-mock-configs anda-srpm-macros terra-mock-gpg-keys terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release \
         subatomic-cli anda{,-srpm-macros} rpm-build podman fuse-overlayfs mold dnf-plugins-core \
         wget less gh util-linux bash bzip2 cpio diffutils findutils gawk glibc-minimal-langpack grep info patch sed tar gzip unzip which xz jq &&\
     dnf clean all
