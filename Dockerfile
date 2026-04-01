@@ -3,7 +3,7 @@ FROM almalinux:latest
 COPY dnf.conf /etc/dnf/dnf.conf
 
 RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo &\
-    dnf install -y --nogpgcheck terra-gpg-keys && \
+    dnf install -y --nogpgcheck --repo=terra terra-gpg-keys && \
     dnf up -y && \
     dnf install -y epel-release && \
     dnf install -y \
