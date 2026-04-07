@@ -3,21 +3,11 @@ FROM almalinux:10-kitten
 COPY dnf.conf /etc/dnf/dnf.conf
 
 RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo &\
-    curl 'https://repos.fyralabs.com/terrael10/?sort=2' -o page.html &\
-    wait &&\
-    dnf up -y && \
-    dnf install -y epel-release && \
-    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-release-[^"]+)".*@\1@p') -o terra-release.rpm &&\
-    curl https://repos.fyralabs.com/terrael10-kitten/$(cat page.html | sed -nE 's@.*"(terra-gpg-keys-[^"]+)".*@\1@p') -o terra-gpg-keys.rpm &&\
-    rm page.html && \
-    rpm -i ./*.rpm && \
-    #sed -Ei "s@^#baseurl=.+@baseurl=https://dl.fedoraproject.org/pub/epel/\$releasever_major\${releasever_minor:+.\$releasever_minor}/Everything/\$basearch/@" /etc/yum.repos.d/epel.repo && \
-    #sed -Ei '/^metalink/ s/^/#/' /etc/yum.repos.d/epel.repo && \
-    sed -Ei '/\[crb\]/,/^$/ s@^enabled=0$@enabled=1@' /etc/yum.repos.d/almalinux-crb.repo && \
+    dnf install -y --nogpgcheck --repo=terra terra-gpg-keys && \
     dnf up -y && \
     dnf install -y epel-release && \
     dnf install -y \
-        terra-mock-configs anda-srpm-macros terra-mock-gpg-keys terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-kitten-release \
+        terra-mock-configs terra-mock-gpg-keys anda-srpm-macros terra-appstream-helper redhat-rpm-config epel-rpm-macros almalinux-release adoptium-temurin-java-repository \
         subatomic-cli anda{,-srpm-macros} rpm-build podman fuse-overlayfs mold dnf-plugins-core \
         wget less gh util-linux bash bzip2 cpio diffutils findutils gawk glibc-minimal-langpack grep info patch sed tar gzip unzip which xz jq &&\
     dnf clean all
