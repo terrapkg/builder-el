@@ -6,7 +6,8 @@ on:
   schedule:
     - cron: "0 0 * * *"
   push:
-    - branches: ["eln", "el10-kitten", "el10"]
+    branches: ["eln", "el10-kitten", "el10"]
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
