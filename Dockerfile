@@ -2,8 +2,7 @@ FROM registry.fedoraproject.org/eln:latest
 
 COPY dnf.conf /etc/dnf/dnf.conf
 
-RUN curl https://cli.github.com/packages/rpm/gh-cli.repo -o /etc/yum.repos.d/gh-cli.repo && \
-    dnf install -y --nogpgcheck --repo=terra terra-gpg-keys && \
+RUN dnf install -y --nogpgcheck --repo=terra terra-gpg-keys && \
     dnf up -y && \
     dnf install -y \
 terra-mock-configs anda-srpm-macros terra-appstream-helper redhat-rpm-config epel-rpm-macros adoptium-temurin-java-repository \
