@@ -9,4 +9,4 @@ RUN dnf install -y --nogpgcheck --repo=terra terra-gpg-keys && \
 terra-mock-configs terra-appstream-helper redhat-rpm-config epel-rpm-macros adoptium-temurin-java-repository \
 subatomic-cli anda{,-srpm-macros} rpm-build podman fuse-overlayfs mold dnf-plugins-core \
 wget less gh util-linux bash bzip2 cpio diffutils findutils gawk glibc-minimal-langpack grep info patch sed tar gzip unzip which xz jq && \
-    dnf packages dbcache
+    dnf clean packages dbcache
